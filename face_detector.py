@@ -16,9 +16,9 @@ STATE_COLOUR = {
     "Distracted": (0, 0, 255)
 }
 STATE_EMOJI = {
-    "Focused": "😊 Focused",
-    "Confused": "😕 Confused",
-    "Distracted": "😵 Distracted"
+    "Focused": "Focused",
+    "Confused": "Confused",
+    "Distracted": "Distracted"
 }
 class FaceDetector:
     @staticmethod

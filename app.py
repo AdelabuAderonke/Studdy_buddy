@@ -1,16 +1,20 @@
 import streamlit as st
 import cv2
+import time
 from face_detector import FaceDetector
 
-st.title("📚 Study Buddy")
+st.title("Studdy Buddy")
 st.caption("Your AI-powered focus companion")
 
 run = st.toggle("Start Session")
 FRAME_WINDOW = st.image([])
 status = st.empty()
+timer_display = st.empty()
+alert_display = st.empty() 
 
 cap = cv2.VideoCapture(0)
-
+start_time = time.time()
+confused_since = None
 while run:
     frame = FaceDetector.get_frame(cap)
     if frame is None:
@@ -20,11 +24,26 @@ while run:
     #frame, face_detected = FaceDetector().detect_faces(frame)
     frame, state = FaceDetector.detect_state(frame)
     if frame is None:
-        status.warning("No face detected 👀")
+        status.warning("No face detected! please adjust your position or lighting")
         continue
     
     frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     FRAME_WINDOW.image(frame_rgb)
     status.info(f"State: {state}")
+    # Timer
+    elapsed = int(time.time() - start_time)
+    mins, secs = divmod(elapsed, 60)
+    timer_display.metric("Session Time", f"{mins:02d}:{secs:02d}")
+    # Confusion alert
+    if "Confused" in str(state):
+        if confused_since is None:
+            confused_since = time.time()
+        elif time.time() - confused_since > 30:
+            alert_display.warning("You've been confused for a while — take a breath or re-read the last section!")
+    else:
+        confused_since = None
+        alert_display.empty()
+    time.sleep(0.1)
+
         
 cap.release()
