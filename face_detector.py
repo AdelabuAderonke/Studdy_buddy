@@ -58,8 +58,8 @@ class FaceDetector:
                     cv2.FONT_HERSHEY_SIMPLEX, 0.9, colour, 2)
 
         return frame, STATE_EMOJI[state]
-if __name__ == "__main__":
-    detector = FaceDetector()
-    detector.detect_faces()
+# if __name__ == "__main__":
+#     detector = FaceDetector()
+#     detector.detect_faces()
     
     

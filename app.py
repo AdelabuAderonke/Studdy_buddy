@@ -3,9 +3,13 @@ import cv2
 import time
 from face_detector import FaceDetector
 from database import init_db, save_session
-
+from dashboard import show_dashboard
+#title color to white
 st.title("Studdy Buddy")
+st.subheader("Stay on track, stay focused")
+
 st.caption("Your AI-powered focus companion")
+
 init_db()
 # Initialise session state
 if "start_time" not in st.session_state:
@@ -71,3 +75,5 @@ else:
         st.success("Session ended! Your focus data has been saved.")    
 
 cap.release()
+st.divider()
+show_dashboard()
